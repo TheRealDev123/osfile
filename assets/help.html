@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="logo.ico" type="image/x-icon">
+    <title>OSFileapp Primary Path</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background: transparent; }
+    </style>
+</head>
+<body class="min-h-full bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-2 sm:p-3 flex items-center justify-center">
+
+    <div class="max-w-md w-full space-y-3">
+        
+        <!-- Controls Card -->
+        <div class="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 shadow-xs space-y-3">
+            <div class="flex items-center justify-between gap-2">
+                <!-- OS Selector Tabs -->
+                <div class="flex items-center space-x-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
+                    <button onclick="setOS('windows')" id="tab-windows" class="os-tab px-2.5 py-1 rounded-lg text-xs font-semibold transition-all">Win</button>
+                    <button onclick="setOS('macos')" id="tab-macos" class="os-tab px-2.5 py-1 rounded-lg text-xs font-semibold transition-all">Mac</button>
+                    <button onclick="setOS('linux')" id="tab-linux" class="os-tab px-2.5 py-1 rounded-lg text-xs font-semibold transition-all">Linux</button>
+                </div>
+
+                <!-- Username Input Control -->
+                <div class="flex-1">
+                    <div class="relative">
+                        <span class="absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-slate-400">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        </span>
+                        <input type="text" id="username-input" value="Family" oninput="renderPath()" placeholder="Username" class="w-full pl-8 pr-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-xl text-xs focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Single Primary Path Box -->
+            <div class="space-y-1.5 pt-1">
+                <label id="path-label" class="text-[11px] font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Primary Application Directory</label>
+                <div class="bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800 rounded-xl p-3 flex items-center justify-between gap-2">
+                    <code id="path-display" class="font-mono text-xs text-blue-600 dark:text-blue-400 break-all select-all">C:\Users\Family\Program Files\OSFileapp1.0</code>
+                    <button onclick="copyPath()" class="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all shrink-0" title="Copy path">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div id="toast" class="fixed bottom-3 right-3 transform translate-y-12 opacity-0 transition-all duration-300 bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-3 py-1.5 rounded-xl shadow-xl flex items-center space-x-1.5 z-50 text-[11px] font-medium">
+        <svg class="w-3.5 h-3.5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        <span>Copied!</span>
+    </div>
+
+    <script>
+        let currentOS = 'windows';
+
+        // Detect system theme preference
+        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.classList.add('dark');
+        }
+
+        const pathTemplates = {
+            windows: "C:\\Users\\{username}\\Program Files\\OSFileapp1.0",
+            macos: "/Users/{username}/Applications/OSFileapp1.0",
+            linux: "/home/{username}/.local/share/OSFileapp1.0"
+        };
+
+        function setOS(os) {
+            currentOS = os;
+            document.querySelectorAll('.os-tab').forEach(tab => {
+                tab.className = "os-tab px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200";
+            });
+            const active = document.getElementById(`tab-${os}`);
+            if (active) {
+                active.className = "os-tab px-2.5 py-1 rounded-lg text-xs font-semibold transition-all bg-white dark:bg-slate-900 text-blue-600 dark:text-blue-400 shadow-xs";
+            }
+            renderPath();
+        }
+
+        function renderPath() {
+            const username = document.getElementById('username-input').value.trim() || 'Family';
+            const template = pathTemplates[currentOS];
+            const resolvedPath = template.replace(/\{username\}/g, username);
+            document.getElementById('path-display').textContent = resolvedPath;
+        }
+
+        function copyPath() {
+            const text = document.getElementById('path-display').textContent;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(showToast);
+            } else {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); showToast(); } catch(e){}
+                document.body.removeChild(ta);
+            }
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.remove('translate-y-12', 'opacity-0');
+            setTimeout(() => toast.classList.add('translate-y-12', 'opacity-0'), 2000);
+        }
+
+        window.onload = function() {
+            setOS('windows');
+        };
+    </script>
+</body>
+</html>

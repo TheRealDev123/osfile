@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../../assets/logo.ico" type="image/x-icon">
+
+    <title>OSFile Admin</title>
+
+    <link rel="stylesheet" href="../../css/style.css">
+</head>
+
+<body>
+
+    <!-- LOGIN -->
+
+    <main id="loginPage" class="page">
+
+        <div class="admin-box">
+
+            <h1>OSFile Admin</h1>
+
+            <p class="page-description">
+                Enter the administrator password to continue.
+            </p>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="Enter password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    class="admin-button"
+                    type="submit"
+                >
+                    Sign In
+                </button>
+
+            </form>
+
+            <div
+                id="loginError"
+                class="status"
+                style="color:#ff6b6b;"
+            ></div>
+
+        </div>
+
+    </main>
+
+
+    <!-- ADMIN DASHBOARD -->
+
+    <main
+        id="adminPage"
+        class="page"
+        style="display:none;"
+    >
+
+        <h1 class="page-title">
+            OSFile Admin
+        </h1>
+
+        <p class="page-description">
+            Manage your OSFile website.
+        </p>
+
+
+        <section class="admin-box">
+
+            <h2>New Blog</h2>
+
+            <br>
+
+            <form id="blogForm">
+
+                <div class="form-group">
+
+                    <label for="blogTitle">
+                        Blog title
+                    </label>
+
+                    <input
+                        id="blogTitle"
+                        type="text"
+                        placeholder="Enter blog title..."
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="blogContent">
+                        Blog content
+                    </label>
+
+                    <textarea
+                        id="blogContent"
+                        placeholder="Write your blog..."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <div class="admin-buttons">
+
+                    <button
+                        class="admin-button"
+                        type="submit"
+                    >
+                        Publish Blog
+                    </button>
+
+                    <button
+                        class="admin-button secondary"
+                        type="button"
+                        id="downloadBlogs"
+                    >
+                        Download Blog Data
+                    </button>
+
+                    <button
+                        class="admin-button secondary"
+                        type="button"
+                        id="logoutButton"
+                    >
+                        Log Out
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <div
+                id="status"
+                class="status"
+            ></div>
+
+        </section>
+
+
+        <br><br>
+
+
+        <h2>Current Blogs</h2>
+
+        <br>
+
+        <div
+            id="adminBlogList"
+            class="blog-list"
+        ></div>
+
+    </main>
+
+
+    <script src="admin.js"></script>
+
+</body>
+</html>

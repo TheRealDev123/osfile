@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="../../../../assets/logo.ico" type="image/x-icon">
+    <title>Installed</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+    
+  <nav class="navbar">
+    <a href="../../../../index.html" class="logo">
+      OS<span>File</span>
+    </a>
+
+    <div class="nav-links">
+      <a href="../../../../index.html">Home</a>
+      <a href="../../../../blogs/index.html">Blogs</a>
+      <a href="../../../../assets/index.html">Assets</a>
+      <a href="../../../../gide/index.html">Guide</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <h1 class="page-title">Thanks for installing</h1>
+
+    <p class="page-description">
+        Thanks for installing OSFile 1.0.
+    </p>
+    <iframe src="../../../../assets/help.html" width="50%" height="200px" style="border: none; overflow: hidden;" scrolling="no"></iframe>
+    
+    <p class="page-description">
+      To Open, first open go to unzip the <code>OSFile.zip</code> then use the tool abouve to find what to put there. To use it just replace the famly text with your username. If you whant to put your download somewhere else then ignore the step before. After that you can open the <code>OSFile.exe</code> file to start using OSFile.
+    </p>
+    </main>
+  <script>
+    // If the page is visited with ?download=FILENAME, automatically trigger download
+    (function() {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var file = params.get('download');
+        if (file) {
+          // Construct a safe relative URL to the file in the same directory
+          var url = './' + encodeURIComponent(file);
+          // Create a temporary anchor to trigger the download
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = file;
+          // Append, click, and remove
+          document.body.appendChild(a);
+          // Give the browser a moment to attach before clicking
+          setTimeout(function() {
+            a.click();
+            document.body.removeChild(a);
+          }, 100);
+        }
+      } catch (e) {
+        // Silent fail - do not block the page
+        console.error('Download trigger failed', e);
+      }
+    })();
+  </script>
+</body>
+</html>
